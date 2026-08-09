@@ -1,16 +1,13 @@
-IELTS SHADOWLAB v4.1 CLOUD — SUPABASE KEY FIX
+IELTS SHADOWLAB v4.2 — SPEAKING UX + FLUENCY FIX
 
-Use this package instead of v4.
+Changes from v4.1:
+- Fluency ignores leading/trailing silence before/after actual speech.
+- WPM is calculated on detected spoken duration, not time spent reaching the Stop button.
+- Floating Record/Stop dock follows the screen while the student scrolls.
+- More noticeable playback speeds: .65x / .8x / 1x plus Extra slow.
+- Automatically prefers Natural/Neural/Premium English system voices when available.
+- Voice selector lets the learner choose any English voice exposed by the browser/OS.
+- Any word below 70 has a one-tap speaker button to hear that word only.
+- Supabase/teacher dashboard behavior from v4.1 is unchanged.
 
-Main fix:
-- Supports Supabase new sb_secret_* keys correctly.
-- SUPABASE_URL can be base URL or accidentally include /rest/v1/.
-- No hard-coded fallback Supabase project remains.
-
-Deploy from GitHub to Netlify.
-Required Netlify environment variables:
-SUPABASE_URL
-SUPABASE_SECRET_KEY
-SHADOWLAB_TEACHER_PASSWORD
-
-See SETUP-SUPABASE.md.
+Deploy by replacing the GitHub repository contents with this package, preserving netlify/functions/shadowlab.mjs, then let Netlify deploy the commit. Environment variables remain unchanged.
