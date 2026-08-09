@@ -1,83 +1,75 @@
-# IELTS SHADOWLAB v4 CLOUD — Setup
+# IELTS SHADOWLAB v4.1 CLOUD — Supabase Setup
 
-This build adds real student identity + Supabase submissions + teacher review.
+This package fixes Supabase's new `sb_secret_...` key handling.
 
-## 1) Supabase
-Open the existing Supabase project and run **supabase-shadowlab.sql** in SQL Editor.
+## 1) Supabase SQL
 
-The build is prepared for the existing project URL:
-`https://scmiknwnisdhcmujkrrp.supabase.co`
+Open your Supabase project and run `supabase-shadowlab.sql` in SQL Editor.
 
-It creates two new tables only:
+It creates:
 - `shadowlab_students`
 - `shadowlab_submissions`
 
-It does NOT modify the existing Writing Tutor tables.
+## 2) Netlify Environment Variables — REQUIRED
 
-## 2) Netlify environment variables
-In the Netlify site: **Site configuration → Environment variables**, add:
+In Netlify → your ShadowLab site → Project configuration → Environment variables:
 
-- `SUPABASE_SECRET_KEY` = the project's `sb_secret_...` key (or service-role key)
-- `SHADOWLAB_TEACHER_PASSWORD` = the password used to open `teacher.html`
+### SUPABASE_URL
 
-Optional:
-- `SUPABASE_URL` = `https://scmiknwnisdhcmujkrrp.supabase.co`
-  (not required in this package because that project URL is already the fallback)
+For your current project use:
 
-For compatibility, the function also accepts existing variable names:
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `TEACHER_PASSWORD`
+`https://xxnpmhvcbjntdgasskbn.supabase.co`
 
-**Never put the secret key into index.html or any browser file.**
+You MAY also paste:
 
-## 3) Deploy
-This cloud version contains a **Netlify Function**, so do **not** use the old static-only workflow where you drag only the HTML/assets into the deploy box.
+`https://xxnpmhvcbjntdgasskbn.supabase.co/rest/v1/`
 
-### Recommended: GitHub → Netlify
-1. Extract the ZIP.
-2. Put the **contents of `IELTS_SHADOWLAB_v4_CLOUD`** at the root of a GitHub repository.
-3. In Netlify choose **Add new project → Import an existing project** and select that repository.
-4. Build command: leave blank.
-5. Publish directory: `.`
-6. The included `netlify.toml` points Netlify to `netlify/functions`.
-7. Add the environment variables above, then redeploy.
+v4.1 automatically removes `/rest/v1/`, but the base URL is cleaner.
 
-### Alternative
-Deploy manually with the Netlify CLI/API so the function is packaged as part of the deploy.
+### SUPABASE_SECRET_KEY
 
-The deployed project must retain this structure:
+Copy the server-side Secret key from THE SAME Supabase project:
+Settings → API Keys → Secret keys
 
-```
-index.html
-practice.html
-teacher.html
-local-asr-worker.js
-content.js
-hero-bg.png
-netlify.toml
-netlify/
-  functions/
-    shadowlab.mjs
-```
+It should normally begin:
 
-## 4) Test
-1. Open the student site.
-2. Enter a test student name and class.
-3. Finish one ShadowLab question.
-4. The result screen should show: **Submitted · Waiting for teacher review**.
-5. Open `/teacher.html` and sign in with `SHADOWLAB_TEACHER_PASSWORD`.
-6. The test submission should appear. Click **Review → Accept**.
-7. Refresh the student homepage. The question should show **Teacher accepted**.
+`sb_secret_...`
 
-## Data saved per completed question
-- student name + class
-- topic / question / selected route
-- first and latest Shadow score
-- Clarity / Fluency / Rhythm / Connected Speech
-- percentage of scored words below 70
-- Recall score
-- number of analyzed attempts
-- local ASR transcript + Recall transcript
-- teacher status and note
+Do not add quotes or `SUPABASE_SECRET_KEY =` into the value field.
 
-Audio files are NOT uploaded in v4; pronunciation processing stays local in the browser.
+### SHADOWLAB_TEACHER_PASSWORD
+
+Choose your teacher-dashboard password.
+
+## 3) IMPORTANT FIX IN v4.1
+
+Supabase's new `sb_secret_...` key is not a JWT.
+
+v4 incorrectly sent it as both:
+- `apikey: sb_secret_...`
+- `Authorization: Bearer sb_secret_...`
+
+v4.1 sends new secret keys only in the `apikey` header.
+Legacy JWT `service_role` keys still receive the Bearer header.
+
+## 4) Redeploy
+
+After changing environment variables:
+Netlify → Deploys → Trigger deploy / Deploy site.
+
+## 5) Test
+
+Open the student homepage and save a test Name + Class.
+
+Teacher dashboard:
+`/teacher.html`
+
+## 6) If it still fails
+
+Do NOT send anyone your full secret key.
+
+Check that:
+- SUPABASE_URL project ref is `xxnpmhvcbjntdgasskbn`
+- Secret key was copied from that exact project's Settings → API Keys → Secret keys
+- Netlify environment variable scopes include Functions/Builds (default "All" is fine)
+- you redeployed after changing the environment variables

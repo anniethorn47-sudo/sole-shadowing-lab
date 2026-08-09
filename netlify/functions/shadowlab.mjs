@@ -1,17 +1,56 @@
 import crypto from 'node:crypto';
 
-const FALLBACK_SUPABASE_URL = 'https://scmiknwnisdhcmujkrrp.supabase.co';
 const JSON_HEADERS = {'content-type':'application/json; charset=utf-8','cache-control':'no-store'};
 function json(status, body){return new Response(JSON.stringify(body),{status,headers:JSON_HEADERS})}
-function env(){return {url:(process.env.SUPABASE_URL||FALLBACK_SUPABASE_URL).replace(/\/$/,''),secret:process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY||'',teacher:process.env.SHADOWLAB_TEACHER_PASSWORD||process.env.TEACHER_PASSWORD||''}}
+function normalizeSupabaseUrl(value){
+  let url=String(value||'').trim().replace(/\/+$/,'');
+  url=url.replace(/\/rest\/v1$/i,'');
+  return url;
+}
+function env(){
+  return {
+    url:normalizeSupabaseUrl(process.env.SUPABASE_URL),
+    secret:String(process.env.SUPABASE_SECRET_KEY||process.env.SUPABASE_SERVICE_ROLE_KEY||'').trim(),
+    teacher:String(process.env.SHADOWLAB_TEACHER_PASSWORD||process.env.TEACHER_PASSWORD||'')
+  }
+}
 function sha(v){return crypto.createHash('sha256').update(String(v)).digest('hex')}
 function safeEq(a,b){const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&crypto.timingSafeEqual(x,y)}
 function text(v,max=180){return String(v??'').trim().slice(0,max)}
-async function sb(path,{method='GET',body,prefer}={}){const {url,secret}=env();if(!secret)throw new Error('Supabase is not configured: missing SUPABASE_SECRET_KEY.');const h={apikey:secret,authorization:`Bearer ${secret}`,'content-type':'application/json'};if(prefer)h.Prefer=prefer;const r=await fetch(`${url}/rest/v1/${path}`,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body)});const raw=await r.text();let data=null;try{data=raw?JSON.parse(raw):null}catch{data=raw}if(!r.ok){const msg=data?.message||data?.hint||data?.details||raw||`Supabase ${r.status}`;throw new Error(msg)}return data}
+async function sb(path,{method='GET',body,prefer}={}){
+  const {url,secret}=env();
+  if(!url)throw new Error('Supabase is not configured: missing SUPABASE_URL.');
+  if(!secret)throw new Error('Supabase is not configured: missing SUPABASE_SECRET_KEY.');
+  const h={apikey:secret,'content-type':'application/json'};
+  // New Supabase sb_secret_* keys are API keys, not JWTs. Do NOT send them as Bearer tokens.
+  // Legacy service_role JWT keys still use Authorization: Bearer <JWT>.
+  if(!secret.startsWith('sb_secret_')) h.authorization=`Bearer ${secret}`;
+  if(prefer)h.Prefer=prefer;
+  const endpoint=`${url}/rest/v1/${path}`;
+  const r=await fetch(endpoint,{method,headers:h,body:body===undefined?undefined:JSON.stringify(body)});
+  const raw=await r.text();
+  let data=null;
+  try{data=raw?JSON.parse(raw):null}catch{data=raw}
+  if(!r.ok){
+    const msg=data?.message||data?.hint||data?.details||raw||`Supabase ${r.status}`;
+    if(r.status===401 && /invalid.*api.*key|api.*key.*invalid/i.test(String(msg))){
+      const ref=(url.match(/^https:\/\/([^.]+)\.supabase\.co/i)||[])[1]||'unknown';
+      const keyType=secret.startsWith('sb_secret_')?'sb_secret':'legacy';
+      throw new Error(`Invalid Supabase API key for project ${ref}. Key type: ${keyType}. Check that SUPABASE_URL and SUPABASE_SECRET_KEY come from the same Supabase project.`);
+    }
+    throw new Error(msg)
+  }
+  return data
+}
 async function authStudent(id,key){if(!id||!key)return null;const rows=await sb(`shadowlab_students?id=eq.${encodeURIComponent(id)}&student_key_hash=eq.${sha(key)}&select=id,full_name,class_name&limit=1`);return rows?.[0]||null}
 function teacherOK(password){const expected=env().teacher;if(!expected)return false;return safeEq(password,expected)}
 export default async (req)=>{if(req.method!=='POST')return json(405,{ok:false,error:'POST only'});let b={};try{b=await req.json()}catch{return json(400,{ok:false,error:'Invalid JSON'})}const action=b.action;try{
- if(action==='health'){await sb('shadowlab_students?select=id&limit=1');return json(200,{ok:true})}
+ if(action==='health'){
+   const {url,secret}=env();
+   await sb('shadowlab_students?select=id&limit=1');
+   const ref=(url.match(/^https:\/\/([^.]+)\.supabase\.co/i)||[])[1]||null;
+   return json(200,{ok:true,projectRef:ref,keyType:secret.startsWith('sb_secret_')?'sb_secret':'legacy'})
+ }
  if(action==='register_student'){
    const fullName=text(b.fullName,120),className=text(b.className,80);if(fullName.length<2||!className)return json(400,{ok:false,error:'Full name and class are required.'});const studentKey=crypto.randomBytes(24).toString('hex');const rows=await sb('shadowlab_students?select=id,full_name,class_name,created_at',{method:'POST',prefer:'return=representation',body:{full_name:fullName,class_name:className,student_key_hash:sha(studentKey)}});return json(200,{ok:true,student:rows[0],studentKey})
  }
