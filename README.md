@@ -1,13 +1,14 @@
-IELTS SHADOWLAB v4.2 — SPEAKING UX + FLUENCY FIX
+IELTS SHADOWLAB v4.3 — Recall / Grammar / Work-Study / Deep Sound Update
 
-Changes from v4.1:
-- Fluency ignores leading/trailing silence before/after actual speech.
-- WPM is calculated on detected spoken duration, not time spent reaching the Stop button.
-- Floating Record/Stop dock follows the screen while the student scrolls.
-- More noticeable playback speeds: .65x / .8x / 1x plus Extra slow.
-- Automatically prefers Natural/Neural/Premium English system voices when available.
-- Voice selector lets the learner choose any English voice exposed by the browser/OS.
-- Any word below 70 has a one-tap speaker button to hear that word only.
-- Supabase/teacher dashboard behavior from v4.1 is unchanged.
+Main changes
+- Work / Study now asks students to choose Working, High-school student, or University student.
+- Shadow and Recall are separate screens. Recall cannot see the model-answer side panel.
+- Floating Record / Stop works in both Shadow and Recall.
+- Recall Again is available after every recall attempt; best overall recall is saved.
+- Recall scores Meaning 35% + Target language 30% + Grammar 20% + Natural wording 15%. Meaning uses local sentence embeddings so reasonable paraphrases are not judged only by exact word overlap.
+- Grammar correction runs locally in-browser with Xenova/grammar-synthesis-small via Transformers.js.
+- Targeted sound checks for -ed, -es /ɪz/ and j/ch use an optional local IPA recognizer on aligned word segments. First deep-sound use is a larger download (~230 MB); results are treated as confidence checks, not perfect phonetic certification.
+- Existing Supabase / Netlify setup is unchanged. No new SQL is required.
 
-Deploy by replacing the GitHub repository contents with this package, preserving netlify/functions/shadowlab.mjs, then let Netlify deploy the commit. Environment variables remain unchanged.
+Deploy
+Replace the existing GitHub project files with this package and commit. Netlify will redeploy automatically.
