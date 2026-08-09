@@ -1,14 +1,16 @@
-IELTS SHADOWLAB v4.3 — Recall / Grammar / Work-Study / Deep Sound Update
+IELTS SHADOWLAB v4.4 — RECALL RELIABILITY FIX
 
-Main changes
-- Work / Study now asks students to choose Working, High-school student, or University student.
-- Shadow and Recall are separate screens. Recall cannot see the model-answer side panel.
-- Floating Record / Stop works in both Shadow and Recall.
-- Recall Again is available after every recall attempt; best overall recall is saved.
-- Recall scores Meaning 35% + Target language 30% + Grammar 20% + Natural wording 15%. Meaning uses local sentence embeddings so reasonable paraphrases are not judged only by exact word overlap.
-- Grammar correction runs locally in-browser with Xenova/grammar-synthesis-small via Transformers.js.
-- Targeted sound checks for -ed, -es /ɪz/ and j/ch use an optional local IPA recognizer on aligned word segments. First deep-sound use is a larger download (~230 MB); results are treated as confidence checks, not perfect phonetic certification.
-- Existing Supabase / Netlify setup is unchanged. No new SQL is required.
+Main fixes from v4.3:
+- Fixes [object Promise]% / NaN in Meaning and Recall Overall.
+- Each Recall attempt has an independent analysis token, transcript, score and history entry. Old async results cannot overwrite a newer attempt.
+- Recall again now prepares a fresh attempt; it does not silently reuse attempt 1.
+- Floating Record in Recall starts a fresh attempt when a previous result is visible.
+- Removes hallucinated full-sentence grammar rewrites. The app never displays a generated “suggested version”.
+- Grammar uses high-confidence local rules and lists specific detected issues only.
+- Natural wording uses common collocation/wording rules.
+- Meaning still uses local sentence embeddings so valid paraphrases can score well.
+- Recall result cards now show Strong / OK / Needs work plus plain-language notes.
+- Work/Study tracks, Supabase, pronunciation sound checks and Shadow/Recall split screens from v4.3 are retained.
 
-Deploy
-Replace the existing GitHub project files with this package and commit. Netlify will redeploy automatically.
+Deployment:
+Replace the repository contents with this package and commit. Netlify will redeploy. No SQL or environment-variable changes are required.
