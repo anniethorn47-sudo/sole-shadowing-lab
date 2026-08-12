@@ -1,0 +1,21 @@
+{
+  "main_routes": 504,
+  "work_study_track_variants": 42,
+  "total_visible_variants": 546,
+  "manual_target_source_ok": true,
+  "target_substring_validation_errors": 0,
+  "one_word_targets": 0,
+  "main_target_count_distribution": {
+    "2": 18,
+    "3": 281,
+    "4": 205
+  },
+  "q5_house_targets": [
+    "a bit more space",
+    "feels more private than",
+    "living in a large apartment building"
+  ],
+  "grammar_regression_example": "I like animal but I never want animal pet because it's hard looking after them and care of them.",
+  "expected_rule_issues": 4,
+  "deterministic_grammar_score": 25
+}
