@@ -1,0 +1,200 @@
+{
+  "version": "v4.9.1",
+  "coverage": {
+    "routes": 546,
+    "sentences": 1046,
+    "tokens": 12516,
+    "tokens_with_ipa": 12516,
+    "core_tokens": 7836,
+    "weak_tokens": 4680
+  },
+  "checks": {
+    "all_routes_present": true,
+    "all_tokens_have_context_ipa": true,
+    "all_tokens_enter_ipa_feedback_pipeline": true,
+    "no_8_item_display_cap": true,
+    "lexical_suffix_false_positive_regression": true,
+    "live_context_lock_preserved": true,
+    "manifest_matches_all_visible_route_variants": true,
+    "manifest_sentence_text_matches_model_answers": true
+  },
+  "missing": [],
+  "bad_focus": [],
+  "focus_summary": {
+    "’s /s/": {
+      "types": 3,
+      "tokens": 47,
+      "examples": [
+        "it's",
+        "that's",
+        "what's"
+      ]
+    },
+    "-ed /ɪd/": {
+      "types": 28,
+      "tokens": 63,
+      "examples": [
+        "interested",
+        "started",
+        "needed",
+        "wanted",
+        "motivated",
+        "complicated",
+        "related",
+        "business-related",
+        "visited",
+        "respected",
+        "sounded",
+        "crowded"
+      ]
+    },
+    "ch /tʃ/": {
+      "types": 49,
+      "tokens": 246,
+      "examples": [
+        "much",
+        "check",
+        "teachers",
+        "watch",
+        "choose",
+        "child",
+        "teacher",
+        "changed",
+        "change",
+        "watches",
+        "teaching",
+        "which"
+      ]
+    },
+    "-s /s/": {
+      "types": 66,
+      "tokens": 218,
+      "examples": [
+        "makes",
+        "subjects",
+        "parks",
+        "tasks",
+        "helps",
+        "classmates",
+        "gifts",
+        "websites",
+        "students",
+        "books",
+        "notes",
+        "jokes"
+      ]
+    },
+    "-s /z/": {
+      "types": 164,
+      "tokens": 532,
+      "examples": [
+        "things",
+        "depends",
+        "feels",
+        "friends",
+        "teachers",
+        "lessons",
+        "buildings",
+        "matters",
+        "hours",
+        "days",
+        "has",
+        "others"
+      ]
+    },
+    "j /dʒ/": {
+      "types": 21,
+      "tokens": 168,
+      "examples": [
+        "enjoy",
+        "just",
+        "subject",
+        "job",
+        "subjects",
+        "journey",
+        "enjoyable",
+        "enjoyed",
+        "jokes",
+        "projects",
+        "major",
+        "journeys"
+      ]
+    },
+    "-s/-es /ɪz/": {
+      "types": 25,
+      "tokens": 58,
+      "examples": [
+        "places",
+        "messages",
+        "watches",
+        "classes",
+        "languages",
+        "spaces",
+        "services",
+        "dishes",
+        "matches",
+        "offices",
+        "catches",
+        "choices"
+      ]
+    },
+    "-ed /d/": {
+      "types": 55,
+      "tokens": 114,
+      "examples": [
+        "learned",
+        "changed",
+        "enjoyed",
+        "preferred",
+        "seemed",
+        "played",
+        "received",
+        "used",
+        "cared",
+        "happened",
+        "shared",
+        "studied"
+      ]
+    },
+    "’s /z/": {
+      "types": 2,
+      "tokens": 6,
+      "examples": [
+        "there's",
+        "building's"
+      ]
+    },
+    "-ed /t/": {
+      "types": 21,
+      "tokens": 67,
+      "examples": [
+        "liked",
+        "relaxed",
+        "used",
+        "focused",
+        "mixed",
+        "looked",
+        "helped",
+        "talked",
+        "office-based",
+        "disliked",
+        "finished",
+        "based"
+      ]
+    },
+    "’s /ɪz/": {
+      "types": 1,
+      "tokens": 2,
+      "examples": [
+        "else's"
+      ]
+    }
+  },
+  "route_parity": {
+    "expected": 546,
+    "manifest": 546,
+    "missing": [],
+    "extra": [],
+    "sentence_text_mismatches": []
+  }
+}

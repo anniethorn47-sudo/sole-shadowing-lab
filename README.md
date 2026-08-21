@@ -1,33 +1,16 @@
-# IELTS SHADOWLAB v4.8 — Simplified Recall
+# IELTS SHADOWLAB v4.9.1 — Full Context IPA
 
-## Main change
-Recall no longer scores:
-- free-answer meaning
-- grammar
-- natural wording / collocation
+## Fix from v4.9
+The v4.9 manifest already contained IPA for every token, but the acoustic checker skipped 4,680 weak/function-word tokens and the feedback UI only surfaced up to 8 interesting items. v4.9.1 fixes both issues.
 
-Recall now has ONE gate only:
+- 546 visible route variants covered.
+- 1,046 model sentences covered.
+- 12,516 / 12,516 tokens have stored context IPA.
+- 12,516 / 12,516 tokens are now mapped through the IPA feedback pipeline.
+- 7,836 core/content tokens can affect the pronunciation gate.
+- 4,680 weak/function tokens are compared with accepted strong/weak forms but do not lower the gate for natural reduction.
+- The analysis screen shows the full IPA map for the current model sentence; there is no 8-item display cap.
+- Context-locked homographs (e.g. live /lɪv/ vs live /laɪv/) remain explicit.
+- Ending targets were rebuilt morphologically so lexical words such as need, speed, less, focus, class and famous are no longer mislabeled as -ed/-s grammar endings.
 
-**Retrieve at least 80% of the manually curated target chunks in one Recall attempt.**
-
-## Recall flow
-1. Finish all Shadow sentences and pass the existing Shadow gate.
-2. Enter Recall screen.
-3. Model answer and target chunks are hidden.
-4. Record Recall.
-5. Local Whisper transcribes the attempt.
-6. ShadowLab checks only the manually curated target chunks.
-7. If below 80%, the missing chunks are revealed AFTER the attempt.
-8. Press Recall again: the chunks are hidden again before recording.
-9. Submit Question stays locked until at least one Recall attempt reaches the 80% gate.
-
-Each Recall attempt is stored separately. Best target-chunk recall is saved to Supabase/Teacher Dashboard.
-
-## Cloud / teacher
-Same Supabase and grouped Teacher Dashboard as v4.7.
-No SQL migration is required.
-No new environment variable is required.
-
-## Deploy
-Replace the existing GitHub repository files with this package and commit.
-Netlify will redeploy automatically if the repository is connected.
+No Supabase SQL or Netlify environment-variable change is required.

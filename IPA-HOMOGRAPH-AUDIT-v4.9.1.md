@@ -1,0 +1,111 @@
+# IPA Homograph Audit v4.9.1
+
+These tokens are explicitly context-locked; the app does not choose a pronunciation from spelling at runtime.
+
+- Item 1 · Where you live now · default · Route A · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 1 · Where you live now · default · Route B · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 1 · Where you live now · default · Route C · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 2 · Where you live now · default · Route C · S2 · token 14: **live.** → live verb /lɪv/ · `/lɪv/`
+- Item 5 · Where you live now · default · Route A · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 5 · Where you live now · default · Route B · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 10 · Where you live now · default · Route A · S2 · token 9: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 15 · Work / Study · working · Route A · S2 · token 7: **use** → use verb /juːz/ · `/juːz/`
+- Item 15 · Work / Study · university · Route B · S2 · token 8: **use** → use verb /juːz/ · `/juːz/`
+- Item 16 · Work / Study · working · Route A · S2 · token 13: **used** → used /juːzd/ · `/juːzd/`
+- Item 16 · Work / Study · working · Route C · S1 · token 12: **use** → use verb /juːz/ · `/juːz/`
+- Item 16 · Work / Study · high_school · Route B · S1 · token 12: **use** → use verb /juːz/ · `/juːz/`
+- Item 16 · Work / Study · university · Route C · S1 · token 11: **use** → use verb /juːz/ · `/juːz/`
+- Item 19 · Work / Study · working · Route A · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 19 · Work / Study · working · Route A · S2 · token 8: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 19 · Work / Study · working · Route C · S1 · token 6: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 19 · Work / Study · high_school · Route C · S1 · token 2: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 19 · Work / Study · high_school · Route C · S1 · token 4: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 19 · Work / Study · university · Route A · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 19 · Work / Study · university · Route C · S1 · token 5: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 19 · Work / Study · university · Route C · S1 · token 7: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 20 · Work / Study · working · Route C · S2 · token 9: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 20 · Work / Study · high_school · Route C · S2 · token 9: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 20 · Work / Study · university · Route A · S2 · token 12: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 21 · Work / Study · high_school · Route B · S2 · token 13: **used** → used to /juːst/ · `/juːst/`
+- Item 23 · Food · default · Route A · S2 · token 2: **used** → used to /juːst/ · `/juːst/`
+- Item 23 · Food · default · Route B · S2 · token 2: **used** → used to /juːst/ · `/juːst/`
+- Item 26 · Food · default · Route C · S1 · token 2: **used** → used to /juːst/ · `/juːst/`
+- Item 30 · Pets and animals · default · Route A · S1 · token 16: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 33 · Typing · default · Route C · S2 · token 3: **use** → use verb /juːz/ · `/juːz/`
+- Item 33 · Typing · default · Route C · S2 · token 12: **use** → use verb /juːz/ · `/juːz/`
+- Item 34 · Typing · default · Route A · S2 · token 7: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 34 · Typing · default · Route B · S2 · token 5: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 35 · Typing · default · Route A · S1 · token 9: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 40 · Stage of life · default · Route C · S1 · token 12: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 43 · Long walk · default · Route A · S2 · token 3: **used** → used to /juːst/ · `/juːst/`
+- Item 44 · Long walk · default · Route B · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 44 · Long walk · default · Route C · S1 · token 8: **use** → use verb /juːz/ · `/juːz/`
+- Item 44 · Long walk · default · Route C · S1 · token 11: **close.** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 46 · Long walk · default · Route C · S2 · token 8: **use** → use verb /juːz/ · `/juːz/`
+- Item 48 · Reading carefully · default · Route A · S1 · token 4: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 48 · Reading carefully · default · Route B · S1 · token 2: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 48 · Reading carefully · default · Route B · S1 · token 7: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 49 · Reading carefully · default · Route A · S1 · token 3: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 49 · Reading carefully · default · Route A · S2 · token 7: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 49 · Reading carefully · default · Route B · S1 · token 6: **reading.** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 49 · Reading carefully · default · Route C · S1 · token 4: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 50 · Reading carefully · default · Route B · S1 · token 3: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 53 · Morning Routine · default · Route A · S2 · token 9: **used** → used to /juːst/ · `/juːst/`
+- Item 56 · Gifts · default · Route A · S2 · token 7: **use** → use verb /juːz/ · `/juːz/`
+- Item 57 · Gifts · default · Route B · S1 · token 12: **using.** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 58 · Gifts · default · Route A · S2 · token 9: **used** → used /juːzd/ · `/juːzd/`
+- Item 66 · Building · default · Route B · S2 · token 3: **used** → used /juːzd/ · `/juːzd/`
+- Item 67 · Building · default · Route C · S2 · token 3: **live,** → live verb /lɪv/ · `/lɪv/`
+- Item 69 · Building · default · Route A · S1 · token 4: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 69 · Building · default · Route B · S1 · token 3: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 69 · Building · default · Route C · S2 · token 14: **use** → use verb /juːz/ · `/juːz/`
+- Item 71 · Travelling · default · Route B · S2 · token 8: **read,** → read present/base /riːd/ · `/ɹiːd/`
+- Item 71 · Travelling · default · Route C · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 72 · Travelling · default · Route B · S2 · token 8: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 72 · Travelling · default · Route C · S2 · token 5: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 76 · Free time activities · default · Route B · S1 · token 12: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 76 · Free time activities · default · Route C · S1 · token 6: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 77 · Free time activities · default · Route A · S1 · token 5: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 78 · Free time activities · default · Route A · S2 · token 1: **Reading,** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 84 · Singing · default · Route A · S2 · token 8: **used** → used to /juːst/ · `/juːst/`
+- Item 87 · Singing · default · Route A · S2 · token 1: **Live** → live adjective /laɪv/ · `/laɪv/`
+- Item 94 · Music · default · Route B · S1 · token 14: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 97 · Watch · default · Route A · S2 · token 3: **use** → use verb /juːz/ · `/juːz/`
+- Item 97 · Watch · default · Route B · S2 · token 13: **read.** → read present/base /riːd/ · `/ɹiːd/`
+- Item 99 · Watch · default · Route C · S2 · token 3: **use** → use verb /juːz/ · `/juːz/`
+- Item 101 · Watch · default · Route B · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 105 · Parks and Gardens · default · Route B · S2 · token 7: **use** → use verb /juːz/ · `/juːz/`
+- Item 107 · Parks and Gardens · default · Route C · S2 · token 6: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 109 · Tidiness · default · Route A · S2 · token 15: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 109 · Tidiness · default · Route C · S2 · token 11: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 112 · Tidiness · default · Route B · S1 · token 10: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 114 · Headphones · default · Route B · S1 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 115 · Headphones · default · Route B · S1 · token 6: **use** → use verb /juːz/ · `/juːz/`
+- Item 116 · Headphones · default · Route C · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 118 · Websites · default · Route A · S2 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 118 · Websites · default · Route C · S1 · token 3: **use** → use verb /juːz/ · `/juːz/`
+- Item 118 · Websites · default · Route C · S1 · token 9: **used** → used to /juːst/ · `/juːst/`
+- Item 119 · Websites · default · Route A · S1 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 119 · Websites · default · Route B · S1 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 119 · Websites · default · Route C · S1 · token 3: **use** → use verb /juːz/ · `/juːz/`
+- Item 120 · Websites · default · Route C · S1 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 121 · Websites · default · Route C · S2 · token 3: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 123 · Telling Jokes · default · Route A · S2 · token 2: **close** → close adjective /kloʊs ~ kləʊs/ · `/kloʊs / kləʊs/`
+- Item 129 · Science · default · Route A · S2 · token 8: **reading** → reading /riːdɪŋ/ · `/ɹiːdɪŋ/`
+- Item 129 · Science · default · Route B · S1 · token 10: **use** → use verb /juːz/ · `/juːz/`
+- Item 131 · Science · default · Route B · S2 · token 11: **read** → read present/base /riːd/ · `/ɹiːd/`
+- Item 137 · Teachers · default · Route B · S1 · token 5: **use** → use verb /juːz/ · `/juːz/`
+- Item 138 · Social Media · default · Route A · S1 · token 6: **uses** → uses verb /juːzɪz/ · `/juːzɪz / juːzᵻz/`
+- Item 138 · Social Media · default · Route A · S2 · token 11: **use** → use verb /juːz/ · `/juːz/`
+- Item 138 · Social Media · default · Route B · S1 · token 5: **use** → use verb /juːz/ · `/juːz/`
+- Item 138 · Social Media · default · Route B · S1 · token 14: **use** → use verb /juːz/ · `/juːz/`
+- Item 138 · Social Media · default · Route C · S2 · token 5: **use** → use verb /juːz/ · `/juːz/`
+- Item 139 · Social Media · default · Route A · S2 · token 9: **live** → live verb /lɪv/ · `/lɪv/`
+- Item 140 · Social Media · default · Route B · S1 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 140 · Social Media · default · Route C · S2 · token 2: **use** → use verb /juːz/ · `/juːz/`
+- Item 141 · Social Media · default · Route A · S1 · token 3: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 141 · Social Media · default · Route B · S1 · token 13: **using** → using verb /juːzɪŋ/ · `/juːzɪŋ/`
+- Item 166 · Mirrors · default · Route A · S1 · token 10: **use** → use verb /juːz/ · `/juːz/`
+- Item 166 · Mirrors · default · Route C · S2 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 167 · Mirrors · default · Route B · S1 · token 4: **use** → use verb /juːz/ · `/juːz/`
+- Item 168 · Mirrors · default · Route C · S2 · token 13: **use** → use verb /juːz/ · `/juːz/`
