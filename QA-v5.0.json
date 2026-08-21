@@ -1,0 +1,116 @@
+{
+  "version": "5.0",
+  "content": {
+    "visibleVariants": 546,
+    "manifestRoutes": 546,
+    "sentences": 1046,
+    "tokens": 12516,
+    "coreTokens": 7836,
+    "weakTokens": 4680,
+    "contextLocks": 107,
+    "focusChecks": 1521,
+    "missingManifest": 0,
+    "sentenceMismatch": 0,
+    "missingIPA": 0,
+    "missingModelPhonemes": 0,
+    "missingRecallTargetMappings": 0
+  },
+  "homographChecks": {
+    "liveVerb": [
+      {
+        "key": "1|default|A",
+        "ipa": [
+          "lɪv"
+        ],
+        "note": "live verb /lɪv/"
+      },
+      {
+        "key": "1|default|B",
+        "ipa": [
+          "lɪv"
+        ],
+        "note": "live verb /lɪv/"
+      },
+      {
+        "key": "1|default|C",
+        "ipa": [
+          "lɪv"
+        ],
+        "note": "live verb /lɪv/"
+      }
+    ],
+    "liveAdjective": [
+      {
+        "key": "87|default|A",
+        "ipa": [
+          "laɪv"
+        ],
+        "note": "live adjective /laɪv/"
+      }
+    ],
+    "usedTo": [
+      {
+        "key": "21|high_school|B",
+        "ipa": [
+          "juːst"
+        ],
+        "note": "used to /juːst/"
+      },
+      {
+        "key": "23|default|A",
+        "ipa": [
+          "juːst"
+        ],
+        "note": "used to /juːst/"
+      },
+      {
+        "key": "23|default|B",
+        "ipa": [
+          "juːst"
+        ],
+        "note": "used to /juːst/"
+      }
+    ],
+    "usedRegular": [
+      {
+        "key": "16|working|A",
+        "ipa": [
+          "juːzd"
+        ],
+        "note": "used /juːzd/"
+      },
+      {
+        "key": "58|default|A",
+        "ipa": [
+          "juːzd"
+        ],
+        "note": "used /juːzd/"
+      },
+      {
+        "key": "66|default|B",
+        "ipa": [
+          "juːzd"
+        ],
+        "note": "used /juːzd/"
+      }
+    ]
+  },
+  "architecture": {
+    "whisperDependencyRemoved": true,
+    "visibilityAwareActiveTimer": true,
+    "audioWorkletPCM": true,
+    "scriptProcessorFallback": true,
+    "validAndRejectedRecordingCounters": true,
+    "oneSharedPhonemeWorker": true,
+    "mobileChunkedInference": true,
+    "realWebGPUCapabilityTest": true,
+    "wasmFallback": true,
+    "homeTwoColumn": true,
+    "topicSearch": true,
+    "achievementDashboardDefault": true,
+    "teacherGroupedByStudent": true,
+    "teacherMultiClassAndStudentFilters": true,
+    "teacherYearMonthWeekFilters": true,
+    "teacherIntegrityEvidence": true
+  }
+}
