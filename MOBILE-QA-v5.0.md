@@ -1,3 +1,5 @@
+> Historical v5.0 static QA only. It does not prove runtime inference on a real device.
+
 # IELTS SHADOWLAB v5.0 — QA Summary
 
 ## Content / IPA coverage

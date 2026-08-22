@@ -5,7 +5,7 @@ class ShadowLabPCMRecorder extends AudioWorkletProcessor {
     this.batch=[];
     this.batchSamples=0;
     this.batchTarget=Math.max(2048,Math.floor(sampleRate*0.12));
-    this.port.onmessage=(e)=>{if(e.data?.type==='stop'){this.flush();this.active=false}};
+    this.port.onmessage=(e)=>{if(e.data?.type==='stop'){this.flush();this.active=false;this.port.postMessage({type:'stopped'})}};
   }
   flush(){
     if(!this.batchSamples)return;

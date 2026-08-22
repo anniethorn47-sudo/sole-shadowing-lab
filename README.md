@@ -1,32 +1,19 @@
-# IELTS SHADOWLAB v5.2 — Stable Analyze + Landing Account Gate
+# IELTS SHADOWLAB v5.2.1 — Stop + Vietnamese Coach Hotfix
 
-This build keeps the v5.1 landing/account UX, but replaces the unstable v5 Analyze wiring.
+Hotfix on top of v5.2 Stable Analyze.
 
-## Analyze stabilization
-- Production baseline is WASM q4 for broader phone/browser compatibility.
-- Uses the model's official Transformers.js `automatic-speech-recognition` pipeline.
-- No hand-wired `AutoModelForCTC + feature extractor + custom logits decoder` in production.
-- The worker performs a real 0.8-second local inference preflight after loading.
-- Long recordings use the official CTC `chunk_length_s` / `stride_length_s` pipeline options.
-- A valid PCM recording is NOT transferred/destructively detached from the page state.
-- Analyze errors preserve the same recording, so students can press **Retry Analyze** without recording again.
-- Analyze requests have a 5-minute watchdog; timeout does not delete the recording.
-- Shadow and Recall still share one phoneme model.
+## Recording Stop fix
+- AudioWorklet now sends an explicit `stopped` acknowledgement after the final PCM flush.
+- Stop waits for the flush acknowledgement (max 850 ms), not for `AudioContext.close()`.
+- `AudioContext.close()` runs asynchronously after the recording has been finalized, so mobile browsers cannot freeze the Stop flow at that point.
+- Stop finalization is wrapped in try/catch and always restores the recording controls.
+- A valid PCM recording immediately creates a WAV playback and enables Analyze.
+- If finalization fails, the UI shows a Vietnamese error and returns to a recordable state instead of getting stuck.
 
-## Deployment preflight
-After Netlify deploy, open `/test-launch.html` on the actual device/browser and press **Run real engine preflight**.
-A PASS means model download/cache + ONNX/WASM inference actually executed on that device.
-Static source QA is not presented as proof of runtime inference.
+## Vietnamese coach restored
+Listening, recording, retry, pronunciation-gate and Recall nudges are Vietnamese again.
 
-## Existing v5 features retained
-- Valid/rejected Shadow and Recall recording counters.
-- Dynamic minimum voiced-speech requirement.
-- Recording rejected if the page/app is hidden during recording.
-- Active question timer pauses when the page is hidden.
-- Context IPA manifest for all route variants.
-- Recall gate requires >=80% manually curated target chunks.
-- Grouped Teacher Dashboard and filters.
-- v5.1 landing page + saved student account gate + restored Teacher Area.
+## Core retained
+Stable WASM q4 Analyze pipeline, Context IPA, 80% Recall target gate, recording counters, active-time tracking, landing/account gate and Teacher Area are unchanged.
 
-## Database
-No SQL migration and no new Netlify environment variables are required.
+No SQL migration or new environment variables are required.
