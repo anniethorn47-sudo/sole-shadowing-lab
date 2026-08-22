@@ -1,0 +1,26 @@
+{
+  "version": "v5.1",
+  "ui": {
+    "separate_landing_and_student_workspace": true,
+    "initial_topics_not_scroll_reachable": true,
+    "hero_native_dimensions": [
+      1672,
+      941
+    ],
+    "hero_preserves_aspect_ratio": true,
+    "saved_device_account_entry": true,
+    "teacher_area_landing": true,
+    "teacher_area_logged_in": true,
+    "logged_in_compact_hero_retained": true,
+    "logged_in_topic_question_split_retained": true,
+    "internal_back_to_topics_keeps_student_mode": true
+  },
+  "unchanged_v5_core": {
+    "mobile_first_audio_engine": true,
+    "recording_integrity_counters": true,
+    "active_time_visibility_pause": true,
+    "recall_target_gate_percent": 80,
+    "sql_migration_required": false,
+    "new_environment_variables_required": false
+  }
+}

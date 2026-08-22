@@ -1,24 +1,32 @@
-# IELTS SHADOWLAB v5.0 — Mobile-first Audio Engine
+# IELTS SHADOWLAB v5.2 — Stable Analyze + Landing Account Gate
 
-## What changed
-- Home library is a two-column workspace on desktop: scrollable/searchable topics on the left (1/3), questions/achievement dashboard on the right (2/3).
-- With no topic selected, the right pane shows the student's server-recorded achievement dashboard.
-- One English phoneme model is shared by Shadow and Recall; Whisper is no longer required for pass/fail analysis.
-- WebGPU q4f16 is tried first and must pass a real inference test; WASM q4 is the compatibility fallback.
-- Long recordings are analyzed in mobile-safe chunks to reduce peak memory.
-- Microphone capture uses raw PCM through AudioWorklet, with ScriptProcessor fallback on browsers that cannot start AudioWorklet.
-- Valid recording counters are separate for every Shadow sentence and Recall.
-- A recording counts only if it contains real audio, enough voiced speech, and stays in the foreground for the full recording.
-- Active question time pauses whenever the page becomes hidden / the student switches tab or app.
-- Recall pass rule remains: at least 80% of hand-curated target chunks must be acoustically retrieved.
-- Teacher dashboard remains grouped by student account and now shows active time and valid recording evidence inside each question.
+This build keeps the v5.1 landing/account UX, but replaces the unstable v5 Analyze wiring.
 
-## Cloud
-No SQL migration is required. v5 stores time/recording integrity in the existing `detail_json` field.
-`student_progress` now also returns `detail_json` so the student achievement dashboard can show total active time and valid recordings.
+## Analyze stabilization
+- Production baseline is WASM q4 for broader phone/browser compatibility.
+- Uses the model's official Transformers.js `automatic-speech-recognition` pipeline.
+- No hand-wired `AutoModelForCTC + feature extractor + custom logits decoder` in production.
+- The worker performs a real 0.8-second local inference preflight after loading.
+- Long recordings use the official CTC `chunk_length_s` / `stride_length_s` pipeline options.
+- A valid PCM recording is NOT transferred/destructively detached from the page state.
+- Analyze errors preserve the same recording, so students can press **Retry Analyze** without recording again.
+- Analyze requests have a 5-minute watchdog; timeout does not delete the recording.
+- Shadow and Recall still share one phoneme model.
 
-## Deploy
-Replace the existing GitHub repository contents with this package and commit. Netlify will deploy the site and `netlify/functions/shadowlab.mjs`.
+## Deployment preflight
+After Netlify deploy, open `/test-launch.html` on the actual device/browser and press **Run real engine preflight**.
+A PASS means model download/cache + ONNX/WASM inference actually executed on that device.
+Static source QA is not presented as proof of runtime inference.
 
-## First-use note
-The first Analyze on a device downloads/caches the English phoneme model. WebGPU uses q4f16 when it actually works on that device; otherwise ShadowLab falls back to WASM q4 automatically.
+## Existing v5 features retained
+- Valid/rejected Shadow and Recall recording counters.
+- Dynamic minimum voiced-speech requirement.
+- Recording rejected if the page/app is hidden during recording.
+- Active question timer pauses when the page is hidden.
+- Context IPA manifest for all route variants.
+- Recall gate requires >=80% manually curated target chunks.
+- Grouped Teacher Dashboard and filters.
+- v5.1 landing page + saved student account gate + restored Teacher Area.
+
+## Database
+No SQL migration and no new Netlify environment variables are required.

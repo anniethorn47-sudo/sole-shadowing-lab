@@ -1,0 +1,21 @@
+{
+  "version": "5.2",
+  "analyze": {
+    "productionBackend": "WASM q4",
+    "officialPipeline": true,
+    "realRuntimePreflightPage": true,
+    "nonDestructivePCMRetry": true,
+    "requestWatchdogMinutes": 5,
+    "whisperRequired": false,
+    "webgpuRequired": false
+  },
+  "ui": {
+    "v5_1_landing_retained": true,
+    "teacher_area_retained": true
+  },
+  "database": {
+    "sqlMigrationRequired": false,
+    "newEnvVarsRequired": false
+  },
+  "runtimeNote": "Static QA cannot prove inference on a real phone. Use test-launch.html after deployment."
+}
