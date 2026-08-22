@@ -1,19 +1,16 @@
-# IELTS SHADOWLAB v5.2.1 — Stop + Vietnamese Coach Hotfix
+# IELTS SHADOWLAB v5.2.2 — Analyze Tokenizer Fix
 
-Hotfix on top of v5.2 Stable Analyze.
+This hotfix keeps the v5.2.1 recording/Stop fix and Vietnamese coaching, and fixes the Analyze model-load failure shown after recording.
 
-## Recording Stop fix
-- AudioWorklet now sends an explicit `stopped` acknowledgement after the final PCM flush.
-- Stop waits for the flush acknowledgement (max 850 ms), not for `AudioContext.close()`.
-- `AudioContext.close()` runs asynchronously after the recording has been finalized, so mobile browsers cannot freeze the Stop flow at that point.
-- Stop finalization is wrapped in try/catch and always restores the recording controls.
-- A valid PCM recording immediately creates a WAV playback and enables Analyze.
-- If finalization fails, the UI shows a Vietnamese error and returns to a recordable state instead of getting stuck.
+## Root cause
+The selected Hugging Face phoneme model repository provides `vocab.json`, `tokenizer_config.json`, `special_tokens_map.json`, and ONNX weights, but it does not provide `tokenizer.json`. Transformers.js v4 requires `tokenizer.json` when constructing its tokenizer backend, so Analyze failed before ONNX inference.
 
-## Vietnamese coach restored
-Listening, recording, retry, pronunciation-gate and Recall nudges are Vietnamese again.
+## Fix
+- Bundles `phoneme-tokenizer.json` inside ShadowLab.
+- Uses the Transformers.js v4 `env.fetch` hook to intercept only the missing remote `tokenizer.json` request for this exact model.
+- All other model/config/weight requests still go to Hugging Face unchanged.
+- The bundled tokenizer vocabulary IDs match the model's published `vocab.json`.
+- CTC decoded phoneme strings are re-segmented into individual phoneme tokens before Context IPA alignment.
+- Recording PCM is still retained when Analyze fails, so Retry Analyze does not require a new recording.
 
-## Core retained
-Stable WASM q4 Analyze pipeline, Context IPA, 80% Recall target gate, recording counters, active-time tracking, landing/account gate and Teacher Area are unchanged.
-
-No SQL migration or new environment variables are required.
+No SQL migration or Netlify environment-variable change is required.

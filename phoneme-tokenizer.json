@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "truncation": null,
+  "padding": null,
+  "added_tokens": [
+    {"id":41,"content":"[UNK]","single_word":false,"lstrip":true,"rstrip":true,"normalized":false,"special":true},
+    {"id":42,"content":"[PAD]","single_word":false,"lstrip":true,"rstrip":true,"normalized":false,"special":true},
+    {"id":43,"content":"<s>","single_word":false,"lstrip":false,"rstrip":false,"normalized":false,"special":true},
+    {"id":44,"content":"</s>","single_word":false,"lstrip":false,"rstrip":false,"normalized":true,"special":true}
+  ],
+  "normalizer": {"type":"Replace","pattern":{"String":" "},"content":"|"},
+  "pre_tokenizer": {"type":"Split","pattern":{"Regex":""},"behavior":"Isolated","invert":false},
+  "post_processor": null,
+  "decoder": {"type":"CTC","pad_token":"[PAD]","word_delimiter_token":"|","cleanup":true},
+  "model": {"vocab": {
+    "|":0,"aɪ":1,"aʊ":2,"b":3,"d":4,"d͡ʒ":5,"eɪ":6,"f":7,"h":8,"i":9,"j":10,"k":11,"l":12,"m":13,"n":14,"oʊ":15,"p":16,"s":17,"t":18,"t͡ʃ":19,"u":20,"v":21,"w":22,"z":23,"æ":24,"ð":25,"ŋ":26,"ɑ":27,"ɔ":28,"ɔɪ":29,"ə":30,"ɚ":31,"ɛ":32,"ɡ":33,"ɪ":34,"ɹ":35,"ʃ":36,"ʊ":37,"ʌ":38,"ʒ":39,"θ":40,"[UNK]":41,"[PAD]":42
+  }}
+}
