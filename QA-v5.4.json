@@ -1,0 +1,28 @@
+{
+  "version": "v5.4-strict-10-attempt-safety",
+  "gate": {
+    "overall_min": 82,
+    "pronunciation_min": 80,
+    "core_word_practice_floor": 78,
+    "reliable_low_word_threshold": 72,
+    "reliable_low_word_allowance": 0.20,
+    "uncertain_core_blocks_before_safety": true,
+    "clear_core_phone_substitution_blocks": true,
+    "critical_suspect_requires_new_recording": true,
+    "weak_words_hard_fail": false,
+    "safety_pass_analyzed_attempt": 10,
+    "reanalyze_same_recording_counts_as_new_attempt": false
+  },
+  "regression": {
+    "unit_groups_passed": 14,
+    "unit_groups_total": 14,
+    "manifest_sentences": 1046,
+    "exact_target_natural_fail": 0,
+    "accepted_weak_variant_natural_fail": 0,
+    "deliberate_one_phone_trials": 240,
+    "deliberate_one_phone_blocked": 238,
+    "deliberate_one_phone_blocked_pct": 99.2,
+    "safety_pass_before_attempt_10": 0
+  },
+  "limitation": "Static/synthetic QA validates scoring and gating logic, not acoustic accuracy for every real speaker, device, microphone, accent, browser, or room."
+}
