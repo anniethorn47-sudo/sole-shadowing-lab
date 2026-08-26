@@ -1,6 +1,6 @@
 import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0';
 
-// IELTS SHADOWLAB v5.2.2 — tokenizer hotfix + stability-first phoneme worker.
+// IELTS SHADOWLAB v5.3 — evidence-only phoneme worker (acoustic recognizer, not verdict engine).
 // Root cause fixed here: the selected phoneme ONNX repo has vocab/tokenizer_config
 // but no tokenizer.json, while Transformers.js v4's tokenizer backend requires it.
 // We supply the missing CTC tokenizer from this app ONLY for that exact request.
@@ -112,7 +112,7 @@ async function load() {
   if (transcriber) return transcriber;
   if (loading) return loading;
   loading = (async () => {
-    postStatus('loading','Loading stable pronunciation engine…','WASM q4 baseline · ShadowLab supplies the model’s missing CTC tokenizer locally.');
+    postStatus('loading','Loading phoneme evidence engine…','WASM q4 baseline · phone decoding is calibrated by v5.3 before PASS/FAIL.');
     const pipe = await pipeline('automatic-speech-recognition', MODEL_ID, {
       dtype: DTYPE,
       progress_callback: progress,
@@ -120,8 +120,8 @@ async function load() {
     postStatus('loading','Running engine preflight…','Executing a short local inference before Analyze is enabled.');
     await pipe(new Float32Array(Math.round(SAMPLE_RATE * 0.8)));
     transcriber = pipe;
-    engine = { device:'wasm', dtype:DTYPE, model:MODEL_ID, pipeline:'automatic-speech-recognition', preflight:true, tokenizer:'shadowlab-bundled-ctc-v1' };
-    postStatus('ready','Pronunciation engine ready','WASM q4 preflight passed · bundled CTC tokenizer active.');
+    engine = { device:'wasm', dtype:DTYPE, model:MODEL_ID, pipeline:'automatic-speech-recognition', preflight:true, tokenizer:'shadowlab-bundled-ctc-v1', evidenceOnly:true, scoring:'v5.3-evidence-calibrated' };
+    postStatus('ready','Phoneme evidence engine ready','WASM q4 preflight passed · CTC output will be calibrated by v5.3 scoring before any verdict.');
     return transcriber;
   })();
   try { return await loading; }
@@ -155,7 +155,7 @@ self.onmessage = async (event) => {
   try {
     const pcm = new Float32Array(m.audio);
     const result = await analyze(pcm);
-    postStatus('ready','Pronunciation engine ready',`${String(result.engine?.device||'wasm').toUpperCase()} q4 · analysis complete.`);
+    postStatus('ready','Phoneme evidence engine ready',`${String(result.engine?.device||'wasm').toUpperCase()} q4 · phone evidence complete.`);
     self.postMessage({type:'result',id:m.id,...result});
   } catch (err) {
     self.postMessage({type:'error',id:m.id,error:friendlyError(err)});

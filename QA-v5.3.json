@@ -1,0 +1,40 @@
+{
+  "version": "v5.3-evidence-calibrated",
+  "scoring_policy": {
+    "phoneme_output_role": "evidence_not_verdict",
+    "pronunciation_weight": 0.55,
+    "fluency_weight": 0.15,
+    "rhythm_weight": 0.15,
+    "connected_speech_weight": 0.15,
+    "overall_min": 80,
+    "pronunciation_min": 78,
+    "uncertainty_max_ratio": 0.45,
+    "reliable_low_word_ratio_nominal_max": 0.3,
+    "short_sentence_minimum_low_word_tolerance": 1,
+    "weak_function_words_hard_fail": false,
+    "critical_first_detection_hard_fail": false,
+    "critical_repeat_required_on_new_valid_recording": true,
+    "reanalyze_same_recording_can_confirm_critical": false,
+    "context_lock_requires_known_competing_pronunciation": true
+  },
+  "automated_regression": {
+    "focused_groups_passed": 13,
+    "focused_groups_total": 13,
+    "manifest_sentences": 1046,
+    "sampled_sentences": 220,
+    "exact_target_false_failures": 0,
+    "accepted_weak_variant_false_failures": 0,
+    "single_ctc_phone_drop_trials": 120,
+    "single_ctc_phone_drop_false_hard_failures": 0,
+    "full_manifest_exact_sentences_tested": 1046,
+    "full_manifest_exact_false_failures": 0,
+    "full_manifest_weak_alt_sentences_tested": 1046,
+    "full_manifest_weak_alt_false_failures": 0
+  },
+  "known_limits": [
+    "The CTC model does not provide certified per-phone acoustic confidence.",
+    "Lexical stress is not certified by this segmental phone path.",
+    "Vowel length marks are preserved for display but normalized where the model inventory cannot distinguish them reliably.",
+    "Real-device microphone and accent testing is still required before classroom rollout."
+  ]
+}
