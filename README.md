@@ -1,101 +1,83 @@
-# IELTS SHADOWLAB v5.4 — Strict Pronunciation Gate + 10-Attempt Safety Pass
+# IELTS SHADOWLAB v6 — Hybrid Pronunciation Gate
 
-This release keeps the stable local WASM q4 phoneme engine and v5.3 context-aware alignment, but changes the **training policy**. v5.3 was intentionally conservative about acoustic uncertainty and could let an obviously poor core word become merely `uncertain`. v5.4 makes uncertain or mismatched core-word evidence **actionable**: it blocks progress and asks for another valid recording during attempts 1–9.
+## What changed
 
-## Why v5.4 exists
+Shadow pronunciation no longer uses the local CTC phoneme recognizer as the PASS/FAIL judge.
 
-The goal is pronunciation practice, not merely avoiding false negatives. Therefore:
+The v6 Shadow flow is:
 
-- a core word marked `uncertain` is **not declared definitely wrong**, but it **does not pass**;
-- a clear core-phone substitution (for example /ɪ/→/i/, /s/→/z/, /tʃ/→/dʒ/) requires a new valid recording;
-- a core word below the per-word practice floor requires repair;
-- a first critical-sound suspicion now blocks until a new recording clears or confirms it;
-- weak/function words remain reduction-tolerant and cannot hard-fail the sentence;
-- after 10 **distinct analyzed valid recordings** for the same sentence, a Safety Pass opens so a learner cannot become permanently trapped by recognizer/microphone limitations.
+1. Listen to the model twice.
+2. Record the full Shadow sentence.
+3. Analyze **delivery only** from the local recording: fluency, rhythm and connectedness.
+4. If the sentence contains a pronunciation contrast that browser testing has shown can be usefully distinguished, complete 1–2 short **carrier-phrase pronunciation checks**.
+5. Each pronunciation check compares evidence for the target word against known competing forms across up to five Web Speech alternatives.
+6. IPA remains visible as a teaching reference, but unvalidated IPA contrasts do not automatically fail a student.
 
-Safety Pass is visibly flagged and is **not treated as mastery** in Teacher Dashboard.
+The old local phoneme CTC worker remains in the package only for **Recall target-chunk detection**.
 
-## Strict gate for attempts 1–9
+## Hybrid target policy
 
-A sentence naturally passes only when all relevant checks are clear:
+Automatic Shadow pronunciation checks are generated only from:
 
-- Overall >= 82
-- Pronunciation >= 80
-- no unresolved `uncertain` core word
-- no clear core-phone substitution
-- no core word below the 78 per-word practice floor
-- reliable low-word allowance stays within 20% (no automatic one-word exemption for short sentences)
-- no unresolved critical-sound recheck
-- no critical pronunciation issue confirmed across repeated valid recordings
+- target/base contrasts for `-ed`, `-s`, and `-es` endings where a real lexical base is available;
+- one-phone contrast families supported by the carrier-phrase benchmark, including `/f-v/`, `/θ-s/t/f/`, `/tʃ-dʒ/`, `/s-z/`, and `/ɪ-iː/`;
+- a small manual contrast list for words such as `think`, `cheap`, `few`, `free`, `thing`, `thought`, `least`, and similar pairs.
 
-Overall weighting remains pronunciation-dominant:
+Not auto-gated:
 
-- Pronunciation 55%
-- Fluency 15%
-- Rhythm 15%
-- Connected speech 15%
+- same-spelling/context-sensitive pronunciations such as `live`, `use/used`, `read`, `close`, etc.;
+- final-/k/ style checks such as `back`, because the browser benchmark showed that Chrome could still output the target word even when the sound was deliberately altered;
+- any sentence without a validated target/trap rule.
 
-## What counts as an attempt
+## Corpus coverage
 
-The 10-attempt rule uses **distinct valid recordings that were actually analyzed**.
+The content and IPA manifest are unchanged:
 
-- Re-analyzing the same audio does **not** increase the attempt count.
-- Recording multiple clips without analyzing them does **not** increase the analyzed-attempt count.
-- Rejected/silent/background-invalid recordings do **not** count.
-- A new valid recording that is analyzed adds one attempt.
+- 546 routes
+- 1,046 model sentences
 
-At analyzed attempt 10, if the normal gate is still not met, ShadowLab returns:
+v6 generated:
 
-**SAFETY PASS — teacher review recommended**
+- 500 / 1,046 sentences with at least one automatic pronunciation focus check
+- 648 automatic focus checks total
+- maximum 2 checks per sentence
+- 546 sentences intentionally left without an automatic pronunciation verdict
 
-The unresolved gate reasons and pronunciation evidence remain stored.
+This is deliberate. v6 prefers **no verdict** over a false pronunciation verdict.
 
-## Student feedback states
+## Confidence competition
 
-- `good`: no repair requested.
-- `review`: pronunciation is usable but below the strict practice target; may block if it contains a clear substitution or falls below the per-word floor.
-- `uncertain`: the acoustic model is not reliable enough to say exactly what happened, but the word **must be retried** before attempt 10.
-- `confirmed`: a critical target issue repeated across separate valid recordings.
-- `weak`: function-word evidence only; natural reduction is accepted.
+For each micro-check, Chrome/Edge may return up to five recognition alternatives.
 
-## Teacher calibration / debug
+v6 uses the strongest confidence containing the target word and the strongest confidence containing a known trap.
 
-Teacher Calibration mode continues to show:
+Default policy:
 
-- target IPA and selected accepted variant;
-- detected phone segment;
-- word score/state;
-- evidence quality and coverage;
-- match / substitution / deletion / insertion alignment;
-- suspected vs confirmed critical sound;
-- sentence attempt number;
-- Safety Pass flag and the gate reasons that were still unresolved.
+- minimum usable confidence: 0.55
+- target/trap decision margin: 0.07
+- target clearly stronger -> PASS
+- trap clearly stronger -> RETRY
+- evidence too close / neither form clear -> UNCLEAR and retry
 
-This lets the teacher distinguish a normal pass from a system safety release.
+A random top-1 transcript does not automatically beat a higher-confidence target alternative.
 
-## QA completed for v5.4
+## 10-attempt safety valve
 
-- Unit regression groups: 14 / 14 PASS.
-- Full corpus: 1,046 / 1,046 exact target pronunciations naturally pass.
-- Full corpus: 1,046 / 1,046 stored accepted weak-form variants naturally pass.
-- Synthetic clear one-phone deliberate-error sweep: 238 / 240 blocked before attempt 10 (99.2%).
-- Safety Pass before attempt 10: 0 cases.
-- Safety Pass at attempt 10 for unresolved deliberate-error cases: verified.
-- Distinct-recording attempt logic: static QA PASS.
-- Re-analyzing the same recording cannot increase the attempt count: static QA PASS.
-- Practice/Teacher inline JavaScript syntax: PASS.
+- Delivery: if a student still cannot clear the delivery threshold after 10 distinct valid Shadow recordings, Safety Pass opens.
+- Pronunciation focus: if one micro-check still cannot clear after 10 scored pronunciation attempts, that check receives Safety Pass.
+- Safety Pass is stored and visible in Teacher Area; it is not reported as a natural pronunciation pass.
 
-Run the local QA suite after future scoring changes:
+## Browser requirement
 
-```bash
-node pronunciation-scoring-v5.4.test.cjs
-node pronunciation-corpus-regression-v5.4.cjs
-node pronunciation-deliberate-error-regression-v5.4.cjs
-node practice-gate-qa-v5.4.cjs
-```
+Automatic pronunciation focus uses the Web Speech Recognition API. Current Chrome / Edge are the intended browsers.
 
-## Deployment
+If the browser does not provide Web Speech Recognition, the automatic pronunciation focus is bypassed rather than replaced with the old phoneme judge. Teacher Area receives a browser-bypass flag.
 
-No SQL migration and no new Netlify environment variable are required. Deploy the ZIP root as before, then run `/test-launch.html` on representative devices.
+## Recall
 
-Important: these QA tests validate scoring/alignment/gating logic. They do **not** prove acoustic accuracy for every real human voice, microphone, browser, or accent. Teacher Calibration mode should still be used for real-device spot checks before broad rollout.
+Recall behavior is intentionally unchanged in v6. The local WASM q4 phoneme worker is still used to detect the hand-curated target chunks for Recall >=80%.
+
+Run `/test-launch.html` after deployment. It checks:
+
+1. whether Web Speech Recognition is available for Shadow pronunciation checks;
+2. whether the Recall-only WASM phoneme model can load and run real inference.

@@ -1,0 +1,24 @@
+{
+  "version": "v6-hybrid-carrier-confidence",
+  "routes": 546,
+  "sentences": 1046,
+  "sentences_with_auto_checks": 500,
+  "sentences_without_auto_checks": 546,
+  "automatic_checks": 648,
+  "max_checks_per_sentence": 2,
+  "ending_checks": 535,
+  "contrast_checks": 113,
+  "benchmark_replay": {
+    "eligible_attempts": 20,
+    "correct_attempts": 12,
+    "wrong_attempts": 8,
+    "correct_natural_pass": 11,
+    "wrong_blocked": 8,
+    "correct_not_natural_pass": [
+      "Please say ship now."
+    ],
+    "wrong_missed": []
+  },
+  "errors": [],
+  "pass": true
+}
