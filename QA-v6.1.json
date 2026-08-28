@@ -1,0 +1,123 @@
+{
+  "version": "v6.1-hybrid-word-diagnostics",
+  "passed": 23,
+  "total": 23,
+  "failed": [],
+  "checks": [
+    {
+      "name": "practice.html local refs exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "teacher.html local refs exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "index.html local refs exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "test-launch.html local refs exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "practice.html inline JS syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "teacher.html inline JS syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "index.html inline JS syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "test-launch.html inline JS syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "content.js syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "pronunciation-manifest-v5.js syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "hybrid-pronunciation-v6.js syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "pronunciation-scoring-v5.4.js syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "speech-engine-worker.js syntax",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "pronunciation gate ignores wordDiagnostic",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "per-word diagnostic renderer present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "word diagnostic launches after Shadow Analyze",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "unreliable words show dash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "diagnostic is labeled non-gating",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "teacher stores word diagnostics",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "teacher displays per-word trace",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "scorer target smoke test",
+      "pass": true,
+      "detail": "{\"scores\":[100,100],\"clarity\":100}"
+    },
+    {
+      "name": "README v6.1 documents diagnostic-only behavior",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "preflight acknowledges word diagnostics",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

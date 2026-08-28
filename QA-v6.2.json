@@ -1,0 +1,112 @@
+{
+  "version": "v6.2-hybrid-recall-fusion",
+  "static_checks": {
+    "web_speech_recall_capture": true,
+    "local_phoneme_fallback": true,
+    "fuzzy_lexical_match": true,
+    "continuous_chunk_score": true,
+    "repeated_evidence_pass": true,
+    "distinct_recording_upsert": true,
+    "six_recording_safety": true,
+    "engine_bypass": true,
+    "teacher_recall_trace": true,
+    "cloud_recall_transcript": true
+  },
+  "corpus": {
+    "visible_route_variants": 546,
+    "recall_targets": 1851,
+    "target_count_distribution": {
+      "2": 18,
+      "3": 297,
+      "4": 231
+    },
+    "recall_target_phoneme_mapping": {
+      "mapped": 1851,
+      "total": 1851,
+      "missing": 0
+    }
+  },
+  "synthetic_aggregate_cases": [
+    {
+      "name": "three_chunks_one_partial_can_pass",
+      "scores": [
+        100,
+        100,
+        65
+      ],
+      "expected_pass": true,
+      "result_score": 88
+    },
+    {
+      "name": "three_chunks_two_partial_not_enough",
+      "scores": [
+        100,
+        65,
+        65
+      ],
+      "expected_pass": false,
+      "result_score": 77
+    },
+    {
+      "name": "four_chunks_one_weak",
+      "scores": [
+        100,
+        100,
+        100,
+        20
+      ],
+      "expected_pass": true,
+      "result_score": 80
+    },
+    {
+      "name": "repeated_evidence_across_distinct_attempts",
+      "current": [
+        60,
+        90,
+        70
+      ],
+      "previous": [
+        90,
+        60,
+        70
+      ],
+      "expected_pass": true,
+      "stable_score": 83
+    },
+    {
+      "name": "safety_after_six_valid_recordings",
+      "scores": [
+        45,
+        55,
+        60
+      ],
+      "recording_no": 6,
+      "expected_pass": true
+    },
+    {
+      "name": "no_early_safety",
+      "scores": [
+        45,
+        55,
+        60
+      ],
+      "recording_no": 5,
+      "expected_pass": false
+    }
+  ],
+  "all_static_pass": true,
+  "syntax_checks": {
+    "practice_inline": "PASS",
+    "teacher_inline": "PASS",
+    "test_launch_inline": "PASS",
+    "index_inline": "PASS",
+    "content_js": "PASS",
+    "pronunciation_manifest": "PASS",
+    "hybrid_rules_js": "PASS",
+    "pronunciation_scorer": "PASS",
+    "speech_worker": "PASS",
+    "pcm_worklet": "PASS",
+    "netlify_function": "PASS"
+  },
+  "local_reference_check": "PASS"
+}

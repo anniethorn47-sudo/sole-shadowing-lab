@@ -1,83 +1,77 @@
-# IELTS SHADOWLAB v6 — Hybrid Pronunciation Gate
+# IELTS SHADOWLAB v6.2 — Hybrid Pronunciation + Recall Fusion
 
-## What changed
+## What changed in v6.2
 
-Shadow pronunciation no longer uses the local CTC phoneme recognizer as the PASS/FAIL judge.
+v6.2 keeps the v6.1 Shadow pronunciation system and updates the **Recall** stage so students are not trapped by a single recognizer miss.
 
-The v6 Shadow flow is:
+### Shadow
+- Full-sentence Shadow still measures delivery: fluency, rhythm and connectedness.
+- Validated pronunciation contrasts still use browser target-vs-trap carrier checks.
+- Per-word local phoneme scores remain diagnostic only and do not fail a Shadow sentence by themselves.
 
-1. Listen to the model twice.
-2. Record the full Shadow sentence.
-3. Analyze **delivery only** from the local recording: fluency, rhythm and connectedness.
-4. If the sentence contains a pronunciation contrast that browser testing has shown can be usefully distinguished, complete 1–2 short **carrier-phrase pronunciation checks**.
-5. Each pronunciation check compares evidence for the target word against known competing forms across up to five Web Speech alternatives.
-6. IPA remains visible as a teaching reference, but unvalidated IPA contrasts do not automatically fail a student.
+### Recall
+The old Recall scorer used one local phoneme sequence and a binary chunk rule:
+- chunk score >= 70 -> counted
+- chunk score < 70 -> zero
+- pass required >=80% of chunks
 
-The old local phoneme CTC worker remains in the package only for **Recall target-chunk detection**.
+This was especially harsh for routes with only three target chunks, because one recognition miss turned 3/3 into 2/3 = 67%.
 
-## Hybrid target policy
+v6.2 replaces that with **Recall evidence fusion**:
 
-Automatic Shadow pronunciation checks are generated only from:
+1. While the student records the full Recall answer, Chrome/Edge Web Speech captures transcript evidence in parallel when available.
+2. The saved audio is still checked by the local phoneme model.
+3. Each hand-curated target chunk receives:
+   - a fuzzy lexical/transcript score,
+   - a local phoneme score,
+   - a fused chunk score.
+4. Partial evidence contributes instead of becoming zero.
+5. Overall Recall score is the mean of the target-chunk evidence scores.
+6. A natural pass requires:
+   - blended Recall score >=80,
+   - at least 60% of target chunks with strong evidence.
+7. Two distinct valid Recall recordings can produce a repeated-evidence pass when the recognizers miss different chunks on different attempts.
+8. Re-analyzing the same recording does not count as a new attempt.
+9. After 6 distinct valid Recall recordings, a Recall Safety Pass opens and is teacher-flagged.
+10. If both recognition engines fail technically on a valid recording, the system bypasses the gate rather than forcing the student to repeat because of an engine failure.
 
-- target/base contrasts for `-ed`, `-s`, and `-es` endings where a real lexical base is available;
-- one-phone contrast families supported by the carrier-phrase benchmark, including `/f-v/`, `/θ-s/t/f/`, `/tʃ-dʒ/`, `/s-z/`, and `/ɪ-iː/`;
-- a small manual contrast list for words such as `think`, `cheap`, `few`, `free`, `thing`, `thought`, `least`, and similar pairs.
+## Browser behavior
 
-Not auto-gated:
+Current Chrome / Edge are recommended.
 
-- same-spelling/context-sensitive pronunciations such as `live`, `use/used`, `read`, `close`, etc.;
-- final-/k/ style checks such as `back`, because the browser benchmark showed that Chrome could still output the target word even when the sound was deliberately altered;
-- any sentence without a validated target/trap rule.
+If Web Speech Recognition is unavailable, Recall falls back to the local phoneme model. If the local worker is also unavailable, the valid recording receives an engine-bypass flag instead of a false failure.
 
-## Corpus coverage
+## Teacher evidence
 
-The content and IPA manifest are unchanged:
+Teacher Area now stores and displays:
+- Recall attempt number,
+- blended Recall score,
+- natural / repeated-evidence / safety / engine-bypass status,
+- browser transcript when available,
+- per-target lexical score,
+- per-target phoneme score,
+- evidence source.
 
-- 546 routes
+## Existing pronunciation policy retained
+
+Automatic Shadow pronunciation checks remain limited to validated target/trap contrasts. Unvalidated IPA contrasts do not decide PASS/FAIL.
+
+Same-spelling context-sensitive words and browser-unreliable contrasts remain teaching/diagnostic targets rather than automatic gates.
+
+## Corpus
+
+The content bank is unchanged:
+- 546 visible route variants
 - 1,046 model sentences
+- hand-curated Recall target chunks preserved
 
-v6 generated:
+No SQL migration is required.
 
-- 500 / 1,046 sentences with at least one automatic pronunciation focus check
-- 648 automatic focus checks total
-- maximum 2 checks per sentence
-- 546 sentences intentionally left without an automatic pronunciation verdict
+## Deployment check
 
-This is deliberate. v6 prefers **no verdict** over a false pronunciation verdict.
+After deployment, open `/test-launch.html`.
 
-## Confidence competition
+It checks:
+1. Web Speech availability for Shadow carrier checks and Recall transcript evidence.
+2. Local WASM phoneme fallback / per-word diagnostic inference.
 
-For each micro-check, Chrome/Edge may return up to five recognition alternatives.
-
-v6 uses the strongest confidence containing the target word and the strongest confidence containing a known trap.
-
-Default policy:
-
-- minimum usable confidence: 0.55
-- target/trap decision margin: 0.07
-- target clearly stronger -> PASS
-- trap clearly stronger -> RETRY
-- evidence too close / neither form clear -> UNCLEAR and retry
-
-A random top-1 transcript does not automatically beat a higher-confidence target alternative.
-
-## 10-attempt safety valve
-
-- Delivery: if a student still cannot clear the delivery threshold after 10 distinct valid Shadow recordings, Safety Pass opens.
-- Pronunciation focus: if one micro-check still cannot clear after 10 scored pronunciation attempts, that check receives Safety Pass.
-- Safety Pass is stored and visible in Teacher Area; it is not reported as a natural pronunciation pass.
-
-## Browser requirement
-
-Automatic pronunciation focus uses the Web Speech Recognition API. Current Chrome / Edge are the intended browsers.
-
-If the browser does not provide Web Speech Recognition, the automatic pronunciation focus is bypassed rather than replaced with the old phoneme judge. Teacher Area receives a browser-bypass flag.
-
-## Recall
-
-Recall behavior is intentionally unchanged in v6. The local WASM q4 phoneme worker is still used to detect the hand-curated target chunks for Recall >=80%.
-
-Run `/test-launch.html` after deployment. It checks:
-
-1. whether Web Speech Recognition is available for Shadow pronunciation checks;
-2. whether the Recall-only WASM phoneme model can load and run real inference.
